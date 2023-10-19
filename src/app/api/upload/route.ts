@@ -12,8 +12,6 @@ export async function POST(request: Request) {
 
     const splitBuffer = buffer.split(/\r?\n/);
 
-    const pathJSON = path.resolve(process.cwd(), 'public', 'data.json');
-
     const result = splitBuffer.map((item) => {
       const eachData = item.split(';');
 
@@ -28,21 +26,30 @@ export async function POST(request: Request) {
       };
     });
 
-    const readJSON = fs.readFileSync(pathJSON, 'utf8');
+    const readDataJSON = await fetch(
+      'https://api.npoint.io/c636b4ab8e6e0935dfb7'
+    );
+    const resultRead: any[] = await readDataJSON.json();
 
-    if (readJSON === '') {
-      fs.writeFileSync(pathJSON, JSON.stringify(result));
+    if (resultRead === null) {
+      await fetch('https://api.npoint.io/c636b4ab8e6e0935dfb7', {
+        method: 'POST',
+        body: JSON.stringify(result),
+      });
 
       return NextResponse.json(
         { result: null, message: 'Success adding new data', code: 200 },
         { status: 200 }
       );
     } else {
-      const convert = JSON.parse(readJSON) as any[];
       result.forEach((item) => {
-        convert.push(item);
+        resultRead.push(item);
       });
-      fs.writeFileSync(pathJSON, JSON.stringify(convert));
+
+      await fetch('https://api.npoint.io/c636b4ab8e6e0935dfb7', {
+        method: 'POST',
+        body: JSON.stringify(resultRead),
+      });
 
       return NextResponse.json(
         { result: null, message: 'Success updateing new data', code: 200 },

@@ -35,14 +35,16 @@ export default function TrackingUpload() {
     queryKey: ['timeline'],
     queryFn: async () => {
       const fetchTimeline = async () => {
-        const result = await fetch('/api/timeline');
+        const result = await fetch(
+          'https://api.npoint.io/c636b4ab8e6e0935dfb7'
+        );
         return result.json();
       };
 
       return await fetchTimeline();
     },
     onSuccess: (item) => {
-      setDataTracking(item.result);
+      setDataTracking(item ?? []);
       setFetching(false);
     },
   });
