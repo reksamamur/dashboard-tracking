@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { result: null, message: 'Failed to read data', code: 500 },
+      { result: null, message: 'Failed to read data', code: 500, detail: error },
       { status: 500 }
     );
   }
