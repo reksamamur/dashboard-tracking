@@ -16,7 +16,7 @@ export async function GET() {
     }
 
     return NextResponse.json(
-      { result: [], message: 'Data Empty', code: 404 },
+      { result: [], message: 'Data Empty', code: 404, path: pathJSON },
       { status: 200 }
     );
   } catch (error) {
