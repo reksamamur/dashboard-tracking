@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     const splitBuffer = buffer.split(/\r?\n/);
 
-    const pathJSON = path.join(process.cwd(), '/src/data', 'data.json');
+    const pathJSON = path.join(process.cwd(), 'data.json');
 
     const result = splitBuffer.map((item) => {
       const eachData = item.split(';');
@@ -52,7 +52,12 @@ export async function POST(request: Request) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { result: null, message: 'Failed to read data', code: 500, detail: error },
+      {
+        result: null,
+        message: 'Failed to read data',
+        code: 500,
+        detail: error,
+      },
       { status: 500 }
     );
   }
