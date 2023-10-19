@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const pathJSON = path.resolve('./data', 'data.json');
+    const pathJSON = path.resolve(process.cwd(), 'public', 'data.json');
 
     const readJSON = fs.readFileSync(pathJSON, 'utf8');
 
@@ -21,7 +21,7 @@ export async function GET() {
     );
   } catch (error) {
     return NextResponse.json(
-      { result: [], message: 'Failed to read data', code: 500 },
+      { result: [], message: 'Failed to read data', code: 500, detail: error },
       { status: 500 }
     );
   }
