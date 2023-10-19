@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     const splitBuffer = buffer.split(/\r?\n/);
 
-    const pathJSON = path.join(process.cwd(), 'data', 'data.json');
+    const pathJSON = path.join(process.cwd(), '/src/data', 'data.json');
 
     const result = splitBuffer.map((item) => {
       const eachData = item.split(';');
