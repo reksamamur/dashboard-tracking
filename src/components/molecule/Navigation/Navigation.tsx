@@ -10,7 +10,14 @@ import {
   LayoutDashboard,
   Joystick,
   ScrollText,
-  ChevronLeft
+  ChevronLeft,
+  Bus,
+  DoorOpen,
+  Backpack,
+  AlertTriangle,
+  Home,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 
 import { useBreakpoint } from '@/lib/breakPoints';
@@ -25,6 +32,8 @@ interface Menu {
   href: string;
   slug: string;
   current: boolean;
+  openSubMenu?: boolean;
+  subMenu?: Menu[];
 }
 
 interface MenuGroups {
@@ -66,27 +75,29 @@ export default function Navigation() {
   const [hide, setHide] = useState('');
   const { isAboveSm, isBelowSm, sm } = useBreakpoint('sm');
 
+  console.log(segment)
+
   const menus: MenuGroups[] = [
     {
       groupId: null,
       groupName: null,
       subMenu: [
         {
-          id: 0,
-          icon: LayoutDashboard,
-          name: 'Dashboard',
-          href: '/dashboard',
-          slug: 'dashboard',
-          current: segment === 'dashboard' ? true : false,
+          id: 890,
+          icon: Home,
+          name: 'Home',
+          href: '/',
+          slug: 'home',
+          current: segment === null ? true : false,
         },
       ],
     },
     {
-      groupId: 1,
+      groupId: 189,
       groupName: 'Track',
       subMenu: [
         {
-          id: 0,
+          id: 221,
           icon: Joystick,
           name: 'Tracking',
           href: '/tracking',
@@ -96,20 +107,74 @@ export default function Navigation() {
       ],
     },
     {
-      groupId: 2,
+      groupId: 342,
       groupName: 'Analyze',
       subMenu: [
         {
-          id: 0,
+          id: 123,
+          icon: LayoutDashboard,
+          name: 'Dashboard',
+          href: '/dashboard',
+          slug: 'dashboard',
+          current: segment === 'dashboard' ? true : false,
+        },
+        {
+          id: 650,
           icon: ScrollText,
           name: 'Report',
           href: '/report',
           slug: 'report',
           current: segment === 'report' ? true : false,
+          openSubMenu: false,
+          subMenu: [
+            {
+              id: 651,
+              icon: Bus,
+              name: 'Transportation',
+              href: '/report/transportation',
+              slug: 'transportation',
+              current: segment === 'transportation' ? true : false,
+            },
+            {
+              id: 652,
+              icon: DoorOpen,
+              name: 'Attendance',
+              href: '/report/attendance',
+              slug: 'attendance',
+              current: segment === 'attendance' ? true : false,
+            },
+            {
+              id: 653,
+              icon: Backpack,
+              name: 'Classroom Attendance',
+              href: '/report/classroom_attendance',
+              slug: 'classroom_attendance',
+              current: segment === 'classroom_attendance' ? true : false,
+            },
+            {
+              id: 654,
+              icon: Backpack,
+              name: 'School Facilities Attendance',
+              href: '/report/school_facilities_attendance',
+              slug: 'school_facilities_attendance',
+              current:
+                segment === 'school_facilities_attendance' ? true : false,
+            },
+            {
+              id: 655,
+              icon: AlertTriangle,
+              name: 'Emergency',
+              href: '/report/emergency',
+              slug: 'emergency',
+              current: segment === 'emergency' ? true : false,
+            },
+          ],
         },
       ],
     },
   ];
+
+  const [dataMenu, setDataMenu] = useState(menus)
 
   const hideBelowSM = () => {
     if (isBelowSm) {
@@ -145,26 +210,73 @@ export default function Navigation() {
                 {item.groupId ? (
                   <div
                     key={item.groupId}
-                    className='flex items-center p-2 mt-2 text-zinc-400 text-sm'
+                    className='flex items-center p-2 mt-4 text-zinc-400 text-sm font-light'
                   >
                     {item.groupName ? item.groupName.toUpperCase() : ''}
                   </div>
                 ) : null}
-                {item.subMenu.map((itemSub) => (
-                  <Link
-                    key={itemSub.id}
-                    href={itemSub.href}
-                    className={cn(
-                      'flex items-center px-2 py-3 gap-3 rounded-lg transition-colors duration-200 hover:bg-zinc-50 hover:text-zinc-900',
-                      itemSub.current
-                        ? 'bg-zinc-100 text-zinc-900'
-                        : 'bg-white text-zinc-500'
-                    )}
-                  >
-                    <itemSub.icon strokeWidth={2} className='w-4 h-4' />
-                    <span className='text-base'>{itemSub.name}</span>
-                  </Link>
-                ))}
+                {item.subMenu.map((itemSub, ssindex) => {
+                  if (itemSub.subMenu) {
+                    return (
+                      <div className='flex flex-col' key={itemSub.id}>
+                        <div
+                          className={cn(
+                            'flex items-center justify-between cursor-pointer px-2 py-3 gap-3 rounded-lg transition-colors duration-200 hover:bg-zinc-50 hover:text-zinc-900',
+                            dataMenu[index].subMenu[ssindex].openSubMenu
+                              ? 'bg-zinc-100 text-zinc-900'
+                              : 'bg-white text-zinc-500'
+                          )}
+                        >
+                          <div className='flex gap-3 items-center flex-1'>
+                            <itemSub.icon strokeWidth={2} className='w-4 h-4' />
+                            <span className='text-base'>{itemSub.name}</span>
+                          </div>
+
+                          {menus[index].subMenu[ssindex].openSubMenu ? (
+                            <ChevronDown />
+                          ) : (
+                            <ChevronUp />
+                          )}
+                        </div>
+
+                        {itemSub.subMenu.map((itemSSub) => (
+                          <Link
+                            key={itemSSub.id}
+                            href={itemSSub.href}
+                            className={cn(
+                              'flex items-center px-4 py-3 gap-3 rounded-lg transition-colors duration-200 hover:bg-zinc-50 hover:text-zinc-900',
+                              itemSSub.current
+                                ? 'bg-zinc-100 text-zinc-900'
+                                : 'bg-white text-zinc-500'
+                            )}
+                          >
+                            <itemSSub.icon
+                              strokeWidth={2}
+                              className='w-4 h-4'
+                            />
+                            <span className='text-base'>{itemSSub.name}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <Link
+                        key={itemSub.id}
+                        href={itemSub.href}
+                        className={cn(
+                          'flex items-center px-2 py-3 gap-3 rounded-lg transition-colors duration-200 hover:bg-zinc-50 hover:text-zinc-900',
+                          itemSub.current
+                            ? 'bg-zinc-100 text-zinc-900'
+                            : 'bg-white text-zinc-500'
+                        )}
+                      >
+                        <itemSub.icon strokeWidth={2} className='w-4 h-4' />
+                        <span className='text-base'>{itemSub.name}</span>
+                      </Link>
+                    );
+                  }
+                })}
               </li>
             );
           })}
