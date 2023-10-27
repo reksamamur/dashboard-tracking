@@ -22,7 +22,10 @@ import {
 
 import { useBreakpoint } from '@/lib/breakPoints';
 
-import { useSelectedLayoutSegment } from 'next/navigation';
+import {
+  usePathname,
+  useSearchParams,
+} from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
 interface Menu {
@@ -69,13 +72,13 @@ const Logo = () => {
 };
 
 export default function Navigation() {
-  const segment = useSelectedLayoutSegment();
   const sidebar = useSidebarStore();
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const [hide, setHide] = useState('');
   const { isAboveSm, isBelowSm, sm } = useBreakpoint('sm');
-
-  console.log(segment)
 
   const menus: MenuGroups[] = [
     {
@@ -88,7 +91,7 @@ export default function Navigation() {
           name: 'Home',
           href: '/',
           slug: 'home',
-          current: segment === null ? true : false,
+          current: pathname === '/' ? true : false,
         },
       ],
     },
@@ -102,7 +105,7 @@ export default function Navigation() {
           name: 'Tracking',
           href: '/tracking',
           slug: 'tracking',
-          current: segment === 'tracking' ? true : false,
+          current: pathname === '/tracking' ? true : false,
         },
       ],
     },
@@ -116,7 +119,7 @@ export default function Navigation() {
           name: 'Dashboard',
           href: '/dashboard',
           slug: 'dashboard',
-          current: segment === 'dashboard' ? true : false,
+          current: pathname === '/dashboard' ? true : false,
         },
         {
           id: 650,
@@ -124,7 +127,7 @@ export default function Navigation() {
           name: 'Report',
           href: '/report',
           slug: 'report',
-          current: segment === 'report' ? true : false,
+          current: false,
           openSubMenu: false,
           subMenu: [
             {
@@ -133,7 +136,7 @@ export default function Navigation() {
               name: 'Transportation',
               href: '/report/transportation',
               slug: 'transportation',
-              current: segment === 'transportation' ? true : false,
+              current: pathname === '/report/transportation' ? true : false,
             },
             {
               id: 652,
@@ -141,7 +144,7 @@ export default function Navigation() {
               name: 'Attendance',
               href: '/report/attendance',
               slug: 'attendance',
-              current: segment === 'attendance' ? true : false,
+              current: pathname === '/report/attendance' ? true : false,
             },
             {
               id: 653,
@@ -149,7 +152,8 @@ export default function Navigation() {
               name: 'Classroom Attendance',
               href: '/report/classroom_attendance',
               slug: 'classroom_attendance',
-              current: segment === 'classroom_attendance' ? true : false,
+              current:
+                pathname === '/report/classroom_attendance' ? true : false,
             },
             {
               id: 654,
@@ -158,7 +162,9 @@ export default function Navigation() {
               href: '/report/school_facilities_attendance',
               slug: 'school_facilities_attendance',
               current:
-                segment === 'school_facilities_attendance' ? true : false,
+                pathname === '/report/school_facilities_attendance'
+                  ? true
+                  : false,
             },
             {
               id: 655,
@@ -166,7 +172,7 @@ export default function Navigation() {
               name: 'Emergency',
               href: '/report/emergency',
               slug: 'emergency',
-              current: segment === 'emergency' ? true : false,
+              current: pathname === '/report/emergency' ? true : false,
             },
           ],
         },
@@ -190,7 +196,7 @@ export default function Navigation() {
 
   useEffect(() => {
     hideBelowSM();
-  });
+  }, [pathname, searchParams]);
 
   return (
     <aside

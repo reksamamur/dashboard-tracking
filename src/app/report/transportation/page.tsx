@@ -6,8 +6,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-import { Datatable } from "@/components/module/Report/Datatable";
-import { busAttendanceColumns } from '@/components/module/Report/Datatable/Columns';
+import { Datatable } from "@/components/molecule/Datatable";
+import { busAttendanceColumns } from '@/components/module/Report/DatatableColumns';
 import { BusAttendance } from "@/model/bus-attendance";
 
 async function fetchBusAttendance() {

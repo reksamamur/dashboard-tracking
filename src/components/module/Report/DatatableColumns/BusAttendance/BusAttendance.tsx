@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { BusAttendance } from '@/model/bus-attendance';
-import { DataTableColumnHeader } from '@/components/module/Report/Datatable/Header';
+import { DataTableColumnHeader } from '@/components/molecule/Datatable/Header';
 import { cn } from '@/lib/utils';
 
 import utc from 'dayjs/plugin/utc';
