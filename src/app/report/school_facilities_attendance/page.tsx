@@ -25,11 +25,18 @@ export default async function SchoolFacilitiesAttendance() {
   return (
     <Card className='col-auto row-auto'>
       <CardHeader>
-        <CardTitle className='font-semibold text-sm'>Library Attendance</CardTitle>
+        <CardTitle className='font-semibold text-sm'>
+          Library Attendance
+        </CardTitle>
         <CardDescription>Report for libraryattendance activity</CardDescription>
-      </CardHeader> 
+      </CardHeader>
       <CardContent>
-        <Datatable data={data} columns={libraryAttendanceColumns} />
+        <Datatable
+          data={data}
+          columns={libraryAttendanceColumns}
+          placeholder='Filter device id'
+          columnFilter='deviceId'
+        />
       </CardContent>
     </Card>
   );

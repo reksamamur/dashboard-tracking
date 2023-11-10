@@ -28,7 +28,12 @@ export default async function Attendance() {
         <CardDescription>Report for attendance activity</CardDescription>
       </CardHeader>
       <CardContent>
-        <Datatable data={data} columns={attendanceColumns} />
+        <Datatable
+          data={data}
+          columns={attendanceColumns}
+          placeholder='Filter device id'
+          columnFilter='deviceId'
+        />
       </CardContent>
     </Card>
   );

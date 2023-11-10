@@ -27,9 +27,14 @@ export default async function Emergency() {
       <CardHeader>
         <CardTitle className='font-semibold text-sm'>Emergency</CardTitle>
         <CardDescription>Report for Emergency activity</CardDescription>
-      </CardHeader> 
+      </CardHeader>
       <CardContent>
-        <Datatable data={data} columns={emergencyColumns} />
+        <Datatable
+          data={data}
+          columns={emergencyColumns}
+          placeholder='Filter device id'
+          columnFilter='deviceId'
+        />
       </CardContent>
     </Card>
   );

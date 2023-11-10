@@ -26,15 +26,20 @@ import {
 } from '@/components/ui/table';
 
 import { DataTablePagination } from './Pagination';
+import { DataTableToolbar } from './Toolbar';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  placeholder: string;
+  columnFilter: string;
 }
 
 export default function DataTable<TData, TValue>({
   columns,
   data,
+  placeholder,
+  columnFilter,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -68,6 +73,11 @@ export default function DataTable<TData, TValue>({
 
   return (
     <div className='space-y-4'>
+      <DataTableToolbar
+        table={table}
+        placeholder={placeholder}
+        columnFilter={columnFilter}
+      />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
